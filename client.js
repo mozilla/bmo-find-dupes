@@ -5,12 +5,16 @@ const dupeInput = dupeForm.elements['str'];
 const dupeCount = document.getElementById('count');
 const report = document.querySelector('h3');
 
+const showbugRegex = /show_bug\.cgi\?id=(\d+)/;
+
 const getURL = function(str) {
-  
+  str = str.trim();
   var url = 'https://bugzilla.mozilla.org/rest/bug/possible_duplicates';
   
   if (parseInt(str, 10) == str && str > 0) {
     url += `?id=${str}`;
+  } else if (showbugRegex.test(str)) {
+    url += `?id=${str.match(showbugRegex)[1]}`;
   }
   else {
     url += `?summary=${encodeURIComponent(str)}`;
